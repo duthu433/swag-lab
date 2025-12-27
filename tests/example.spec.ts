@@ -1,26 +1,19 @@
-import { test, expect } from '@playwright/test';
-import { LoginPage } from '../page_objects/loginpage.po';
-import { ProductPage } from '../page_objects/productscreen.po';
-import { CheckoutScreen } from '../page_objects/checkoutpage.po';
-import { CheckoutInformationScreen } from '../page_objects/checkoutInformationpage.po';
-let loginpage:LoginPage
-let productscreen:ProductPage;
-let checkoutinfoscreen:CheckoutInformationScreen;
-let checkoutscreen:CheckoutScreen;
-test.beforeEach('has title', async ({ page }) => {
-  loginpage=new LoginPage(page)
-  productscreen=new ProductPage(page)
-  checkoutinfoscreen=new CheckoutInformationScreen(page)
-  checkoutscreen=new CheckoutScreen(page)
-  await page.goto('https://www.saucedemo.com/.');
+import { test, expect } from '../fixture-file/fixturefile';
+import { sauceDemoTestData } from '../test-data/qa-test-data.ts';
+
+test.beforeEach('has title', async ({ page}) => {
+  await page.goto(sauceDemoTestData.url);
 });
 
-  test('Test1: Successful login',async({page})=>{
-    await loginpage.loginToApplication('standard_user','secret_sauce')
-    await productscreen.addProductToCart('Sauce Labs Bike Light')
-    await checkoutscreen.checkoutPage()
-    await checkoutinfoscreen.checkoutInfoScreen('duthu','r','465')
+  test('Test1: Successful login',async({loginPage,productPage,checkoutPage,checkoutInfoPage})=>{
+    await loginPage.loginToApplication(sauceDemoTestData.user.username,sauceDemoTestData.user.password)
+    await productPage.addProductToCart(sauceDemoTestData.product.productname)
+    await checkoutPage.checkoutPage()
+    await checkoutInfoPage.checkoutInfoScreen(sauceDemoTestData.checkout.firstName,sauceDemoTestData.checkout.lastName,sauceDemoTestData.checkout.zipCode)
 });
+
+
+
 
 
  

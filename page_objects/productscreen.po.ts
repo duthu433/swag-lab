@@ -22,6 +22,9 @@ export class ProductPage{
     getClickOnCart():Locator{
         return this.page.locator(this.cartbtn)
     }
+    getItemCount():Locator{
+        return this.getClickOnCart().locator("//span[@class='shopping_cart_badge']")
+    }
     getproductByName(productname:string):Locator{
         return this.page.locator(`//div[text()='${productname}']/ancestor::div[@class='inventory_item_description']`)
     }
@@ -36,6 +39,7 @@ export class ProductPage{
     console.log(await this.getproductByPrice(productname).innerText())
     await this.getAddToCartByname(productname).click()
     //await this.page.locator("//div[text()='Sauce Labs Backpack']/ancestor::div[@class='inventory_item_description']//button[text()='Add to cart']").click()
+    console.log(await this.getItemCount().innerText())
     await this.getClickOnCart().click()
     }
 }
